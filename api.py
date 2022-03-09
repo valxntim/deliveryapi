@@ -1,3 +1,4 @@
+#bibliotecas
 from flask import Flask, request
 from datetime import datetime
 import json
@@ -5,11 +6,14 @@ import json
 #inicia a api
 app = Flask(__name__)
 
+#home page
+
 @app.route("/")
 def homepage():
   return "A api delivery CocoBambu está funcionando!"
 
 #endpoint 1
+#cria novo pedido
 @app.route("/api/create", methods = ['POST'])
 def create():
     data = dict(request.args)
@@ -28,6 +32,7 @@ def create():
     return data
 
 #endpoint2
+#altera o pedido
 @app.route("/api/alterarpedido", methods = ['POST'])
 def alterarpedido():
   consulta = dict(request.args)
@@ -57,6 +62,7 @@ def alterarpedido():
   return "Success"
 
 #endpoint3
+#muda o status entregue
 @app.route("/api/entregue", methods = ['POST'])
 def entregue():
   id_data = dict(request.args)
@@ -84,6 +90,7 @@ def entregue():
 
 
 #endpoint4
+#deleta clientes
 @app.route("/api/delete", methods = ['POST'])
 def delete():
   id = dict(request.args)["id"]
@@ -103,8 +110,9 @@ def delete():
   json.dump(dicionario, f)
   f.close()
   return "Success"
-#endpoint5
 
+#endpoint5
+#informa dados do pedido
 @app.route("/api/consultarpedido", methods = ['POST'])
 def consultarpedido():
   id = dict(request.args)["id"]
@@ -126,6 +134,7 @@ def consultarpedido():
   return "Success"
   
 #endpoint6
+#informa dados sobre o cliente
 @app.route("/api/fregues", methods = ['POST'])
 def fregues():
   nome = dict(request.args)["nome"]
@@ -146,6 +155,7 @@ def fregues():
   return somador
 
 #endpoint7
+#informa a qnt de produtos
 @app.route("/api/qntdproduto", methods = ['POST'])
 def qntdproduto():
   produto = dict(request.args)["produto"]
@@ -164,28 +174,6 @@ def qntdproduto():
   json.dump(dicionario, f)
   f.close()
   return somador
-
-
-#endpoint8
-@app.route("/api/highproducts", methods = ['POST'])
-def highproducts():
-  highprodutos = {}
-  f = open("pedidos.json", encoding="utf-8")
-  dicionario = json.load(f)
-  f.close()
-  for i in range(len(dicionario["pedidos"])):
-    try:
-      if dicionario["pedidos"][i]["produto"] in highprodutos['produtos'][0] and dicionario["pedidos"][i]["entregue"] == True:
-        highprodutos['produtos'][1] += 1
-      elif dicionario["pedidos"][i]["produto"] not in highprodutos['produtos'] and dicionario["pedidos"][i]["entregue"] == True:
-        highprodutos['produtos'] = [str(dicionario["pedidos"][i]["produto"]), 1]
-    except:
-      pass
-  f = open("pedidos.json", "w", encoding="utf-8")
-  json.dump(dicionario, f)
-  f.close()
-  return highprodutos
-
 
 #rodar nossa api
 app.run(host = '0.0.0.0')
