@@ -1,5 +1,5 @@
 # deliveryapi
-Api feita para o processo do Coco Bambu.
+Api feita para controlar pedidos de clientes de um delivery
 
   Eu desenvolvi uma API chamada "delivery-api" para controlar pedidos de
 clientes de um delivery. Também, criei endpoints para criação, atualização, exclusão
